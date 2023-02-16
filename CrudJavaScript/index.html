@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+  
+    <title>Document</title>
+</head>
+<body>
+    <H1>Repaso de JS avanzado - Inmuebles</H1>
+    <div id="result" style="background-color:aquamarine; border-radius: 30px; padding: 5px; color: darkgreen; width: 80%; height: 20%; margin-left: 10%; margin-bottom: 10px; align-items: center;"></div>
+    <form action="">
+        <div>
+            <label id="idinmueble" for="">Id inmueble</label>
+            <input id="idbuilding" type="text" placeholder="Id inmueble">
+            <span id="messidbuilding" class="message"></span>
+        </div>
+        <br>
+        <div>
+            <label for="adress">Direccion</label>
+            <input id="adress" type="text" placeholder="Direccion">
+            <span id="messadress" class="message"></span>
+        </div>
+        <br>
+        <div>
+            <label for="phone">Teléfono</label>
+            <input id="phone" type="text" placeholder="Teléfono">
+            <span id="messphone" class="message"></span>
+        </div>
+        <br>
+        <div>
+            <label for="price">Precio</label>
+            <input id="price" type="text" placeholder="Precio">
+            <span id="messprice" class="message"></span>
+        </div>
+        <br>
+        <div>
+            <label for="state">Estado</label>
+            <br>
+            <input type="radio" id="available" name="state" checked> Disponible
+            <br>
+            <input type="radio" id="notavailable"  name="state"> No Disponible
+            <br><br>
+
+        </div>
+        <div>
+            <button type="button" id="send">Enviar</button>
+            <button type="button" id="search">Buscar</button>
+            <button type="button" id="list">Listar</button>
+
+        </div>
+    </form>
+    <script>
+        // Arreglo de objetos de los inmuebles
+        let properties=[
+            {idbuilding:'1', adress:'Carrera 54 - 23', phone:'4012555', price:250,state:true},
+            {idbuilding:'2', adress:'Guasimalito', phone:'4825468', price:300,state:true},
+            {idbuilding:'3', adress:'Navarra', phone:'4864865', price:150,state:false},
+            {idbuilding:'4', adress:'Copacabana', phone:'86468+', price:400,state:true}
+        ]
+
+        //REferenciar los elementos, con sus IDs, a traves de variables
+        let result = document.getElementById('result');
+        let idbuilding = document.getElementById('idbuilding');
+        let messidbuilding = document.querySelector('#messidbuilding');
+        let adress = document.getElementById('adress');
+        let messadress = document.querySelector('#messadress');
+        let phone = document.getElementById('phone');
+        let messphone = document.querySelector('#messphone');
+        let price = document.getElementById('price');
+        let messprice = document.querySelector('#messprice');
+        let available = document.querySelector('#available');
+        let notavailable = document.querySelector('#notavailable');
+        let send = document.querySelector('#send');
+        let search = document.querySelector('#search');
+        let list = document.querySelector('#list');
+        //Ocualtar id result
+        result.style.visibility="hidden"
+       
+        //Programar eventos
+        idbuilding.addEventListener('focus', function(){
+            messidbuilding.textContent = "Ingrese la identificación del inmueble";
+        })
+        idbuilding.addEventListener('blur', function(){
+            messidbuilding.textContent = "";
+        })
+        adress.addEventListener('focus', function(){
+            messadress.textContent = "Ingrese la dirección del inmueble";
+        })
+        adress.addEventListener('blur', function(){
+            messadress.textContent = "";
+        })
+        phone.addEventListener('focus', function(){
+            messphone.textContent = "Ingrese el teléfono del inmueble";
+        })
+        phone.addEventListener('blur', function(){
+            messphone.textContent = "";
+        })
+        price.addEventListener('focus', function(){
+            messprice.textContent = "Ingrese el precio del inmueble";
+        })
+        price.addEventListener('blur', function(){
+            messprice.textContent = "";
+        })
+
+        //validaciones al enviar
+
+        send.addEventListener('click',()=>{
+            if(idbuilding.value!=""){
+                if(adress.value!=""){
+                    if(phone.value!=""){
+                        if(price.value!=""){
+                            //Agregar un elemento al arreglo
+                            properties.push({idbuilding:idbuilding.value,adress:adress,phone:phone.value,price:price.value,estado:available.Checked? true:false})
+                            result.textContent = "Datos guardados correctamente"
+                            result.style.visibility ="visible"
+                            setTimeout(()=>{
+                                result.style.visibility="hidden"
+                            },3000)
+                        }
+                        else{
+                            messprice.textContent=" El Precio es obligadtorio"
+                        }
+                    }
+                    else{
+                        messphone.textContent="El Teléfono es obligadtorio"
+                    }
+                }
+                else{
+                    messadress.textContent="la dirección es obligatoria"
+                }
+            }
+            else{
+                messidbuilding.textContent="El ID es obligatorio"
+            }
+        })
+
+        //Botón consultar
+        search.addEventListener('click',function(){
+            let idpropertie = idbuilding.value;
+            let resulidbuilding = properties.find(function(elem){
+                return elem.idbuilding === idbuilding;
+            });
+
+            if(resulidbuilding){
+                adress.value = resulidbuilding.adress;
+                phone.value = resulidbuilding.phone;
+                price.value = resulidbuilding.phone;
+            } else{
+                result.textContent ="Datos no encontrados o no existen"
+            }
+        })
+
+    </script>
+</body>
+</html>
